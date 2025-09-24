@@ -9,18 +9,35 @@ const app: any = express();
 app.use(express.json());
 app.use(morgan('dev'));
 
-app.get("/me", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
-    message: "Studnet information",
-    data: {
-    studentId: "670610727",
-    firstName: "Lawit",
-    lastName: "Pinkaew",
-    Program: "CPE",
-    section: "001",
-  },
+    message: "lab 15 API service successfully"
   });
+});
+
+app.get("/me", (req: Request, res: Response) => {
+    try {
+        const myInfo = {
+            studentId: "670610727",
+            firstName: "Lawit",
+            lastName: "Pinkaew",
+            program: "CPE",
+            section: "001",
+        };
+
+        return res.status(200).json({
+            success: true,
+            message: "Student information",
+            data: myInfo,
+        });
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: "Something is wrong, please try again",
+            error: err,
+        });
+    }
 });
 
 app.use("/students", studentRouter);
